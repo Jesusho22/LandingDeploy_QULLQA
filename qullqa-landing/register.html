@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crear cuenta — Qullqa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      background: #F2F0EB;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 3rem 1rem;
+    }
+
+    /* ── Card ── */
+    .reg-card {
+      background: #fff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 580px;
+      padding: 2.25rem 2.5rem 2.5rem;
+      box-shadow: 0 4px 24px rgba(11,53,88,.09), 0 1px 4px rgba(0,0,0,.05);
+    }
+
+    /* ── Header row ── */
+    .reg-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .reg-back {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      color: #64748B;
+      font-size: 18px;
+      text-decoration: none;
+      flex-shrink: 0;
+      margin-top: 2px;
+      border-radius: 6px;
+      transition: background .15s, color .15s;
+    }
+    .reg-back:hover { background: #F1F5F9; color: #0B3558; }
+    .reg-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: #0B3558;
+      margin-bottom: .3rem;
+      line-height: 1.2;
+    }
+    .reg-subtitle {
+      font-size: 13px;
+      color: #64748B;
+    }
+
+    /* ── Section headings ── */
+    .reg-section {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #0B3558;
+      margin-top: 1.75rem;
+      margin-bottom: .85rem;
+    }
+
+    /* ── Form grid ── */
+    .reg-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .reg-group { margin-bottom: 12px; }
+    .reg-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 5px;
+    }
+    .req { color: #EF4444; margin-left: 2px; }
+    .reg-input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #D1D5DB;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #1e293b;
+      background: #fff;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .reg-input::placeholder { color: #94A3B8; }
+    .reg-input:focus {
+      border-color: #0B3558;
+      box-shadow: 0 0 0 3px rgba(11,53,88,.1);
+    }
+
+    /* ── Divider ── */
+    .reg-divider {
+      border: none;
+      border-top: 1px solid #F1F5F9;
+      margin: 1.75rem 0 1.5rem;
+    }
+
+    /* ── Submit button ── */
+    .btn-create {
+      width: 100%;
+      padding: 12px;
+      background: #0B3558;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14.5px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: .5rem;
+      transition: background .15s, transform .1s;
+    }
+    .btn-create:hover { background: #0d3f6b; transform: translateY(-1px); }
+    .btn-create:active { transform: translateY(0); }
+    .reg-terms {
+      text-align: center;
+      font-size: 12px;
+      color: #94A3B8;
+      margin-top: .85rem;
+    }
+    .reg-terms a { color: #0B3558; text-decoration: none; font-weight: 500; }
+    .reg-terms a:hover { text-decoration: underline; }
+
+    /* ── Plan badge (gratuito) ── */
+    .plan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0B3558;
+      margin-bottom: 1.25rem;
+    }
+    .plan-badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #22C55E; }
+
+    /* ── Error state ── */
+    .reg-input.error { border-color: #EF4444; }
+    .field-error { font-size: 11px; color: #EF4444; margin-top: 3px; display: none; }
+    .reg-input.error + .field-error { display: block; }
+
+    @media (max-width: 480px) {
+      .reg-card { padding: 1.75rem 1.25rem; }
+      .reg-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="reg-card">
+
+    <!-- Header -->
+    <div class="reg-header">
+      <a class="reg-back" href="login.html" title="Volver">&#8592;</a>
+      <div>
+        <h1 class="reg-title">Crear cuenta en Qullqa</h1>
+        <p class="reg-subtitle">Registra tu negocio y comienza a gestionar tu inventario</p>
+      </div>
+    </div>
+
+    <!-- Plan badge -->
+    <span class="plan-badge">
+      <span class="plan-badge-dot"></span>
+      Plan Gratuito — Hasta 100 productos
+    </span>
+
+    <form id="registerForm" novalidate>
+
+      <!-- Datos del Negocio -->
+      <div class="reg-section">Datos del Negocio</div>
+      <div class="reg-row">
+        <div>
+          <label class="reg-label" for="bizName">Nombre del negocio <span class="req">*</span></label>
+          <input class="reg-input" id="bizName" type="text" placeholder="Ej: Bodega San Martín" required />
+        </div>
+        <div>
+          <label class="reg-label" for="ruc">RUC (opcional)</label>
+          <input class="reg-input" id="ruc" type="text" placeholder="20123456789" maxlength="11" />
+        </div>
+      </div>
+
+      <!-- Tipo de negocio -->
+      <div class="reg-group">
+        <label class="reg-label" for="bizType">Tipo de negocio <span class="req">*</span></label>
+        <select class="reg-input" id="bizType" required>
+          <option value="">Selecciona una opción</option>
+          <option value="bodega">Bodega / Minimarket</option>
+          <option value="farmacia">Farmacia / Botica</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+
+      <!-- Datos Personales -->
+      <div class="reg-section">Datos Personales</div>
+      <div class="reg-row">
+        <div>
+          <label class="reg-label" for="fullName">Nombre completo <span class="req">*</span></label>
+          <input class="reg-input" id="fullName" type="text" placeholder="Juan Pérez" required />
+        </div>
+        <div>
+          <label class="reg-label" for="phone">Teléfono (opcional)</label>
+          <input class="reg-input" id="phone" type="tel" placeholder="987654321" />
+        </div>
+      </div>
+
+      <hr class="reg-divider" />
+
+      <!-- Credenciales de Acceso -->
+      <div class="reg-section" style="margin-top:0;">Credenciales de Acceso</div>
+      <div class="reg-group">
+        <label class="reg-label" for="regEmail">Correo electrónico <span class="req">*</span></label>
+        <input class="reg-input" id="regEmail" type="email" placeholder="tu@correo.com" required autocomplete="email" />
+      </div>
+      <div class="reg-row">
+        <div>
+          <label class="reg-label" for="regPass">Contraseña <span class="req">*</span></label>
+          <input class="reg-input" id="regPass" type="password" placeholder="••••••••" required autocomplete="new-password" />
+        </div>
+        <div>
+          <label class="reg-label" for="regPassConf">Confirmar contraseña <span class="req">*</span></label>
+          <input class="reg-input" id="regPassConf" type="password" placeholder="••••••••" required autocomplete="new-password" />
+          <span class="field-error" id="passError">Las contraseñas no coinciden</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-create">Crear Cuenta</button>
+      <p class="reg-terms">
+        Al registrarte, aceptas nuestros
+        <a href="#">términos y condiciones</a>
+        y nuestra
+        <a href="#">política de privacidad</a>.
+      </p>
+
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const passInput = document.getElementById('regPass');
+    const passConf  = document.getElementById('regPassConf');
+    const passError = document.getElementById('passError');
+
+    passConf.addEventListener('input', () => {
+      if (passConf.value && passConf.value !== passInput.value) {
+        passConf.classList.add('error');
+      } else {
+        passConf.classList.remove('error');
+      }
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const required = ['bizName','bizType','fullName','regEmail','regPass','regPassConf'];
+      let valid = true;
+
+      required.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+        else el.classList.remove('error');
+      });
+
+      if (passInput.value !== passConf.value) {
+        passConf.classList.add('error');
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      const btn = form.querySelector('button[type="submit"]');
+      btn.textContent = 'Creando cuenta...';
+      btn.style.opacity = '.7';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.textContent = '✓ ¡Cuenta creada con éxito!';
+        btn.style.background = '#22C55E';
+        btn.style.opacity = '1';
+        setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+      }, 1200);
+    });
+  </script>
+</body>
+</html>

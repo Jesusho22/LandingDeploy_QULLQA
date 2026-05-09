@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suscripción — Qullqa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      background: #F2F0EB;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1rem 4rem;
+    }
+
+    /* ── Back link ── */
+    .co-back {
+      align-self: flex-start;
+      font-size: 13px;
+      color: #64748B;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: inherit;
+      margin-bottom: 1.5rem;
+      transition: color .15s;
+      margin-left: max(0px, calc((100vw - 980px) / 2));
+    }
+    .co-back:hover { color: #0B3558; }
+
+    /* ── Layout ── */
+    .co-layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 24px;
+      width: 100%;
+      max-width: 980px;
+      align-items: start;
+    }
+
+    /* ── Shared card ── */
+    .co-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(11,53,88,.09), 0 1px 4px rgba(0,0,0,.05);
+    }
+
+    /* ─────────────── LEFT — Plan summary ─────────────── */
+    .plan-summary {
+      padding: 2rem 1.75rem;
+      position: sticky;
+      top: 2rem;
+    }
+    .plan-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #94A3B8;
+      margin-bottom: 1rem;
+    }
+    .plan-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #0B3558;
+      margin-bottom: .35rem;
+    }
+    .plan-desc { font-size: 13px; color: #64748B; line-height: 1.55; margin-bottom: 1.5rem; }
+
+    .plan-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 3px;
+      margin-bottom: .25rem;
+    }
+    .plan-currency { font-size: 1rem; font-weight: 700; color: #0B3558; margin-top: 4px; }
+    .plan-amount { font-size: 2.4rem; font-weight: 800; color: #0B3558; line-height: 1; }
+    .plan-period { font-size: 13px; color: #94A3B8; }
+    .plan-price-note { font-size: 11.5px; color: #94A3B8; margin-bottom: 1.5rem; }
+
+    .plan-divider { border: none; border-top: 1px solid #F1F5F9; margin: 1.25rem 0; }
+
+    .plan-features-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: #94A3B8;
+      margin-bottom: .75rem;
+    }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .plan-features li {
+      font-size: 13px;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .plan-features li::before {
+      content: '';
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: #22C55E;
+      flex-shrink: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 8l3 3 5-5' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+
+    .plan-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 1.5rem;
+      padding: 10px 14px;
+      background: #F8FAFC;
+      border-radius: 10px;
+      border: 1px solid #E2E8F0;
+    }
+    .plan-badge-icon { font-size: 18px; }
+    .plan-badge-text { font-size: 12px; color: #64748B; line-height: 1.4; }
+    .plan-badge-text strong { color: #0B3558; display: block; font-size: 12.5px; }
+
+    /* ─────────────── RIGHT — Form ─────────────── */
+    .co-form-card { padding: 2.25rem 2.5rem 2.5rem; }
+
+    .co-header { margin-bottom: 1.75rem; }
+    .co-title { font-size: 19px; font-weight: 700; color: #0B3558; margin-bottom: .25rem; }
+    .co-subtitle { font-size: 13px; color: #64748B; }
+
+    .co-section {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #0B3558;
+      margin-top: 1.5rem;
+      margin-bottom: .75rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .co-section::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #F1F5F9;
+    }
+    .co-section-num {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #0B3558;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .co-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .co-group { margin-bottom: 12px; }
+    .co-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 5px;
+    }
+    .req { color: #EF4444; margin-left: 2px; }
+    .co-input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #D1D5DB;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #1e293b;
+      background: #fff;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .co-input::placeholder { color: #94A3B8; }
+    .co-input:focus {
+      border-color: #0B3558;
+      box-shadow: 0 0 0 3px rgba(11,53,88,.1);
+    }
+    .co-input.error { border-color: #EF4444; }
+    .field-error { font-size: 11px; color: #EF4444; margin-top: 3px; display: none; }
+    .co-input.error + .field-error { display: block; }
+
+    /* ── Payment area ── */
+    .payment-methods {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .pm-option {
+      flex: 1;
+      min-width: 90px;
+      padding: 9px 10px;
+      border: 1.5px solid #D1D5DB;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      font-size: 12px;
+      font-weight: 500;
+      color: #374151;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    .pm-option.active { border-color: #0B3558; background: rgba(11,53,88,.05); color: #0B3558; }
+    .pm-option:hover:not(.active) { border-color: #94A3B8; }
+
+    .card-fields { display: grid; gap: 12px; }
+    .card-number-wrap {
+      position: relative;
+    }
+    .card-number-wrap .card-icons {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      gap: 4px;
+      pointer-events: none;
+    }
+    .card-icon {
+      width: 28px;
+      height: 18px;
+      border-radius: 3px;
+      background: #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 800;
+      color: #64748B;
+    }
+    .card-icon.visa { background: #1A1F71; color: #fff; }
+    .card-icon.mc { background: #EB001B; color: #fff; }
+
+    /* ── Submit ── */
+    .co-divider { border: none; border-top: 1px solid #F1F5F9; margin: 1.75rem 0 1.25rem; }
+
+    .btn-checkout {
+      width: 100%;
+      padding: 13px;
+      background: #0B3558;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background .15s, transform .1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-checkout:hover { background: #0d3f6b; transform: translateY(-1px); }
+    .btn-checkout:active { transform: translateY(0); }
+    .btn-checkout:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+
+    .co-secure {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: .75rem;
+      font-size: 11.5px;
+      color: #94A3B8;
+    }
+    .co-secure svg { width: 13px; height: 13px; }
+
+    .co-terms {
+      text-align: center;
+      font-size: 11.5px;
+      color: #94A3B8;
+      margin-top: .6rem;
+    }
+    .co-terms a { color: #0B3558; text-decoration: none; font-weight: 500; }
+    .co-terms a:hover { text-decoration: underline; }
+
+    /* ── Success overlay ── */
+    .success-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(11,53,88,.55);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .success-overlay.show { display: flex; }
+    .success-modal {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+      animation: popIn .35s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes popIn {
+      from { transform: scale(.8); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .success-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: #22C55E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 30px;
+    }
+    .success-title { font-size: 1.2rem; font-weight: 700; color: #0B3558; margin-bottom: .4rem; }
+    .success-sub { font-size: 13.5px; color: #64748B; line-height: 1.5; margin-bottom: 1.5rem; }
+    .success-plan-name { font-family: 'Orbitron', sans-serif; font-weight: 800; color: #0B3558; }
+    .btn-go-login {
+      display: block;
+      width: 100%;
+      padding: 11px;
+      background: #0B3558;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .btn-go-login:hover { background: #0d3f6b; }
+
+    @media (max-width: 760px) {
+      .co-layout { grid-template-columns: 1fr; }
+      .plan-summary { position: static; }
+      .co-form-card { padding: 1.75rem 1.25rem; }
+      .co-row { grid-template-columns: 1fr; }
+      .co-back { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="co-back" href="pricing.html">← Volver a Precios</a>
+
+  <div class="co-layout">
+
+    <!-- ── LEFT: Plan Summary ── -->
+    <div class="co-card plan-summary" id="planSummary">
+      <div class="plan-label">Tu plan seleccionado</div>
+      <div class="plan-name" id="planName">Bodegas Pro</div>
+      <div class="plan-desc" id="planDesc">Para bodegueros que quieren control total de su inventario.</div>
+
+      <div class="plan-price-row">
+        <span class="plan-currency">S/</span>
+        <span class="plan-amount" id="planAmount">29</span>
+        <span class="plan-period">/ mes</span>
+      </div>
+      <div class="plan-price-note" id="planPriceNote">Facturado mensualmente · Cancela cuando quieras</div>
+
+      <hr class="plan-divider" />
+
+      <div class="plan-features-title">Incluye</div>
+      <ul class="plan-features" id="planFeatures">
+        <li>Productos ilimitados</li>
+        <li>Venta POS completa</li>
+        <li>Hasta 5 usuarios</li>
+        <li>Alertas de vencimiento</li>
+        <li>Reportes financieros</li>
+      </ul>
+
+      <div class="plan-badge-row">
+        <span class="plan-badge-icon">🔒</span>
+        <div class="plan-badge-text">
+          <strong>14 días de garantía</strong>
+          Si no estás satisfecho, te devolvemos el dinero sin preguntas.
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RIGHT: Form ── -->
+    <div class="co-card co-form-card">
+      <div class="co-header">
+        <div class="co-title">Completa tu suscripción</div>
+        <div class="co-subtitle">Solo te tomará un momento. Tu información está protegida.</div>
+      </div>
+
+      <form id="checkoutForm" novalidate>
+
+        <!-- 1. Datos del Negocio -->
+        <div class="co-section">
+          <span class="co-section-num">1</span>
+          Datos del Negocio
+        </div>
+        <div class="co-row">
+          <div>
+            <label class="co-label" for="bizName">Nombre del negocio <span class="req">*</span></label>
+            <input class="co-input" id="bizName" type="text" placeholder="Ej: Bodega San Martín" required />
+          </div>
+          <div>
+            <label class="co-label" for="bizType">Tipo de negocio <span class="req">*</span></label>
+            <select class="co-input" id="bizType" required>
+              <option value="">Selecciona</option>
+              <option value="bodega">Bodega / Minimarket</option>
+              <option value="farmacia">Farmacia / Botica</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 2. Datos Personales -->
+        <div class="co-section">
+          <span class="co-section-num">2</span>
+          Datos del Titular
+        </div>
+        <div class="co-row">
+          <div>
+            <label class="co-label" for="fullName">Nombre completo <span class="req">*</span></label>
+            <input class="co-input" id="fullName" type="text" placeholder="Juan Pérez" required />
+          </div>
+          <div>
+            <label class="co-label" for="phone">Teléfono <span class="req">*</span></label>
+            <input class="co-input" id="phone" type="tel" placeholder="987654321" required />
+          </div>
+        </div>
+        <div class="co-group">
+          <label class="co-label" for="regEmail">Correo electrónico <span class="req">*</span></label>
+          <input class="co-input" id="regEmail" type="email" placeholder="tu@correo.com" required autocomplete="email" />
+        </div>
+        <div class="co-row">
+          <div>
+            <label class="co-label" for="regPass">Contraseña <span class="req">*</span></label>
+            <input class="co-input" id="regPass" type="password" placeholder="••••••••" required autocomplete="new-password" />
+          </div>
+          <div>
+            <label class="co-label" for="regPassConf">Confirmar contraseña <span class="req">*</span></label>
+            <input class="co-input" id="regPassConf" type="password" placeholder="••••••••" required autocomplete="new-password" />
+            <span class="field-error" id="passError">Las contraseñas no coinciden</span>
+          </div>
+        </div>
+
+        <!-- 3. Pago -->
+        <div class="co-section">
+          <span class="co-section-num">3</span>
+          Método de Pago
+        </div>
+
+        <div class="payment-methods">
+          <button type="button" class="pm-option active" data-pm="card">💳 Tarjeta</button>
+          <button type="button" class="pm-option" data-pm="yape">📱 Yape</button>
+          <button type="button" class="pm-option" data-pm="plin">💚 Plin</button>
+          <button type="button" class="pm-option" data-pm="transfer">🏦 Transferencia</button>
+        </div>
+
+        <!-- Card fields (shown by default) -->
+        <div id="pmCard" class="card-fields">
+          <div class="card-number-wrap">
+            <label class="co-label" for="cardNumber">Número de tarjeta</label>
+            <input class="co-input" id="cardNumber" type="text" placeholder="1234 5678 9012 3456" maxlength="19" />
+            <div class="card-icons">
+              <span class="card-icon visa">VISA</span>
+              <span class="card-icon mc">MC</span>
+            </div>
+          </div>
+          <div class="co-row">
+            <div>
+              <label class="co-label" for="cardExp">Vencimiento</label>
+              <input class="co-input" id="cardExp" type="text" placeholder="MM / AA" maxlength="7" />
+            </div>
+            <div>
+              <label class="co-label" for="cardCvc">CVV</label>
+              <input class="co-input" id="cardCvc" type="text" placeholder="•••" maxlength="4" />
+            </div>
+          </div>
+          <div>
+            <label class="co-label" for="cardName">Nombre en la tarjeta</label>
+            <input class="co-input" id="cardName" type="text" placeholder="Como aparece en la tarjeta" />
+          </div>
+        </div>
+
+        <!-- Yape fields -->
+        <div id="pmYape" style="display:none;">
+          <div class="co-group">
+            <label class="co-label" for="yapePhone">Número Yape</label>
+            <input class="co-input" id="yapePhone" type="tel" placeholder="987654321" />
+          </div>
+          <div style="background:#F1F5F9;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#64748B;line-height:1.55;">
+            Recibirás una notificación push en tu app Yape para confirmar el pago de <strong id="yapeAmount" style="color:#0B3558;">S/ 29</strong>.
+          </div>
+        </div>
+
+        <!-- Plin fields -->
+        <div id="pmPlin" style="display:none;">
+          <div class="co-group">
+            <label class="co-label" for="plinPhone">Número Plin</label>
+            <input class="co-input" id="plinPhone" type="tel" placeholder="987654321" />
+          </div>
+          <div style="background:#F1F5F9;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#64748B;line-height:1.55;">
+            Recibirás una notificación en tu app Plin para confirmar el pago de <strong id="plinAmount" style="color:#0B3558;">S/ 29</strong>.
+          </div>
+        </div>
+
+        <!-- Transfer fields -->
+        <div id="pmTransfer" style="display:none;">
+          <div style="background:#F1F5F9;border-radius:10px;padding:14px 16px;font-size:13px;color:#374151;line-height:1.7;">
+            <div style="font-weight:700;color:#0B3558;margin-bottom:6px;">Datos de transferencia</div>
+            <div>Banco: <strong>BCP</strong></div>
+            <div>Cuenta corriente: <strong>215-12345678-0-21</strong></div>
+            <div>CCI: <strong>00221500123456780210</strong></div>
+            <div>Titular: <strong>Flowbit S.A.C.</strong></div>
+            <div style="margin-top:8px;font-size:12px;color:#94A3B8;">Envía el comprobante a <strong>pagos@qullqa.com</strong> para activar tu cuenta.</div>
+          </div>
+        </div>
+
+        <hr class="co-divider" />
+
+        <button type="submit" class="btn-checkout" id="submitBtn">
+          🔐 Confirmar suscripción
+        </button>
+
+        <div class="co-secure">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+          Pago simulado · Tus datos están protegidos con cifrado SSL
+        </div>
+        <p class="co-terms">
+          Al suscribirte aceptas nuestros
+          <a href="#">términos y condiciones</a> y
+          <a href="#">política de privacidad</a>.
+        </p>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ── Success overlay ── -->
+  <div class="success-overlay" id="successOverlay">
+    <div class="success-modal">
+      <div class="success-icon">✓</div>
+      <div class="success-title">¡Suscripción activada!</div>
+      <p class="success-sub">
+        Tu plan <span class="success-plan-name" id="successPlanName">Bodegas Pro</span> ha sido activado.
+        Hemos enviado los detalles de acceso a tu correo electrónico.
+      </p>
+      <a href="login.html" class="btn-go-login">Ir a iniciar sesión</a>
+    </div>
+  </div>
+
+  <script>
+    /* ── Read plan from URL params ── */
+    const params = new URLSearchParams(location.search);
+    const plan = params.get('plan') || 'pro';
+
+    const plans = {
+      pro: {
+        name: 'Bodegas Pro',
+        desc: 'Para bodegueros que quieren control total de su inventario.',
+        amount: '29',
+        features: [
+          'Productos ilimitados',
+          'Venta POS completa',
+          'Hasta 5 usuarios',
+          'Alertas de vencimiento',
+          'Reportes financieros',
+        ],
+      },
+      farmacias: {
+        name: 'Farmacias',
+        desc: 'Control riguroso para farmacias con trazabilidad IoT completa.',
+        amount: '59',
+        features: [
+          'Todo lo de Bodegas Pro',
+          'Control de lotes y series',
+          'Usuarios ilimitados',
+          'Integración IoT completa',
+          'Reportes SUNAT / DIGEMID',
+          'Soporte prioritario',
+        ],
+      },
+    };
+
+    const data = plans[plan] || plans.pro;
+    document.getElementById('planName').textContent    = data.name;
+    document.getElementById('planDesc').textContent    = data.desc;
+    document.getElementById('planAmount').textContent  = data.amount;
+    document.getElementById('successPlanName').textContent = data.name;
+    document.title = `Suscripción ${data.name} — Qullqa`;
+    document.getElementById('yapeAmount').textContent  = `S/ ${data.amount}`;
+    document.getElementById('plinAmount').textContent  = `S/ ${data.amount}`;
+
+    const featuresList = document.getElementById('planFeatures');
+    featuresList.innerHTML = '';
+    data.features.forEach(f => {
+      const li = document.createElement('li');
+      li.textContent = f;
+      featuresList.appendChild(li);
+    });
+
+    /* ── Payment method toggle ── */
+    const pmSections = {
+      card:     document.getElementById('pmCard'),
+      yape:     document.getElementById('pmYape'),
+      plin:     document.getElementById('pmPlin'),
+      transfer: document.getElementById('pmTransfer'),
+    };
+    document.querySelectorAll('.pm-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pm-option').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const pm = btn.getAttribute('data-pm');
+        Object.entries(pmSections).forEach(([key, el]) => {
+          el.style.display = key === pm ? '' : 'none';
+        });
+      });
+    });
+
+    /* ── Card number formatting ── */
+    document.getElementById('cardNumber').addEventListener('input', function() {
+      let v = this.value.replace(/\D/g,'').substring(0,16);
+      this.value = v.replace(/(.{4})/g,'$1 ').trim();
+    });
+    document.getElementById('cardExp').addEventListener('input', function() {
+      let v = this.value.replace(/\D/g,'').substring(0,4);
+      if (v.length >= 3) v = v.substring(0,2) + ' / ' + v.substring(2);
+      this.value = v;
+    });
+
+    /* ── Password match ── */
+    const passInput = document.getElementById('regPass');
+    const passConf  = document.getElementById('regPassConf');
+    passConf.addEventListener('input', () => {
+      if (passConf.value && passConf.value !== passInput.value) {
+        passConf.classList.add('error');
+      } else {
+        passConf.classList.remove('error');
+      }
+    });
+
+    /* ── Form submit ── */
+    document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const required = ['bizName','bizType','fullName','phone','regEmail','regPass','regPassConf'];
+      let valid = true;
+      required.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+        else el.classList.remove('error');
+      });
+      if (passInput.value !== passConf.value) { passConf.classList.add('error'); valid = false; }
+      if (!valid) return;
+
+      const btn = document.getElementById('submitBtn');
+      btn.textContent = 'Procesando pago...';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        document.getElementById('successOverlay').classList.add('show');
+      }, 1400);
+    });
+  </script>
+</body>
+</html>
